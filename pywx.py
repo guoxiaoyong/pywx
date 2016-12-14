@@ -39,9 +39,20 @@ def xiaoyong():
       return echo
   elif request.method == 'POST':
     request.get_data()
-    weixin_xml = request.data
-    weixin_post = xmltodict(weixin_xml)
-    print weixin_post
+    raw_xml = request.data
+    post_msg = xmltodict.parse(raw_xml)
+    MyName = post_msg['xml']['ToUserName']
+    CustomName = post_msg['xml']['FromUserName']
+    CreateTime = post_msg['xml']['CreateTime']
+
+    reply_msg = {'xml': {}}
+    reply_msg['xml']['ToUserName'] = ToUserName
+    reply_msg['xml']['FromUserName'] = FromUserName
+    reply_msg['xml']['CreateTime'] = CreateTime
+    reply_msg['xml']['MsgType'] = 'text'
+    reply_msg['xml']['Content'] = 'How are you!'
+    msg = xmltodict.unparse(reply_msg)
+    return msg
 
 
 if __name__ == '__main__':
