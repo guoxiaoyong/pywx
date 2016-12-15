@@ -3,6 +3,14 @@ from flask import request
 import hashlib
 import xmltodict
 import random
+import logging
+
+Logger = logging.getLogger('weixin')
+hdlr = logging.FileHandler('weixin.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+Logger.addHandler(hdlr)
+Logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 _TOKEN = 'guoxiaoyong'
@@ -36,6 +44,8 @@ class Quotes(object):
     return self._quotes[num]
 
 Rand_Quotes = Quotes()
+with open('quotes/welcome.txt') as fd:
+  Welcome_Msg = fd.read().decode('utf8')
 
 @app.route('/xiaoyong', methods=['POST', 'GET'])
 def xiaoyong():
@@ -53,6 +63,7 @@ def xiaoyong():
   elif request.method == 'POST':
     request.get_data()
     raw_xml = request.data
+    Logger.info(raw_xml)
     post_msg = xmltodict.parse(raw_xml)
     ServerName = post_msg['xml']['ToUserName']
     ClientName = post_msg['xml']['FromUserName']
@@ -63,7 +74,12 @@ def xiaoyong():
     reply_msg['xml']['FromUserName'] = ServerName
     reply_msg['xml']['CreateTime'] = CreateTime
     reply_msg['xml']['MsgType'] = 'text'
-    reply_msg['xml']['Content'] = Rand_Quotes.random()
+
+    if (post_msg['xml']['MsgType'] == 'event' and
+        post_msg['xml']['Event'] == 'subscribe'):
+      reply_msg['xml']['Content'] = Welcome_Msg
+    else:
+      reply_msg['xml']['Content'] = Rand_Quotes.random().decode('utf8')
     msg = xmltodict.unparse(reply_msg)
     return msg
 
