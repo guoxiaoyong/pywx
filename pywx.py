@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask
 from flask import request
 import hashlib
@@ -79,7 +80,11 @@ def xiaoyong():
         post_msg['xml']['Event'] == 'subscribe'):
       reply_msg['xml']['Content'] = Welcome_Msg
     else:
-      reply_msg['xml']['Content'] = Rand_Quotes.random().decode('utf8')
+      if (post_msg['xml']['Content'] == u'预约' or
+              post_msg['xml']['Content'] == u'book'):
+        reply_msg['xml']['Content'] = u'预定成功'
+      else:
+        reply_msg['xml']['Content'] = Rand_Quotes.random().decode('utf8')
     msg = xmltodict.unparse(reply_msg)
     return msg
 

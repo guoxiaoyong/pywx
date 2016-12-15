@@ -1,1 +1,28 @@
-<xml><URL><![CDATA[http://198.56.183.230/xiaoyong]]></URL><ToUserName><![CDATA[XiaoyongGuo]]></ToUserName><FromUserName><![CDATA[1324343]]></FromUserName><CreateTime>12333332</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[this_is_good]]></Content><MsgId>123456</MsgId></xml>
+2016-12-14 22:02:03,233 INFO <xml><ToUserName><![CDATA[gh_3da2decb5f41]]></ToUserName>
+<FromUserName><![CDATA[oVtcxv1V-tj8nkgItNU1URXZd3zQ]]></FromUserName>
+<CreateTime>1481770922</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[unsubscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+2016-12-14 22:02:18,945 INFO <xml><ToUserName><![CDATA[gh_3da2decb5f41]]></ToUserName>
+<FromUserName><![CDATA[oVtcxv1V-tj8nkgItNU1URXZd3zQ]]></FromUserName>
+<CreateTime>1481770938</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+2016-12-14 22:02:42,075 INFO <xml><ToUserName><![CDATA[gh_3da2decb5f41]]></ToUserName>
+<FromUserName><![CDATA[oVtcxv1V-tj8nkgItNU1URXZd3zQ]]></FromUserName>
+<CreateTime>1481770961</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[路况]]></Content>
+<MsgId>6364157818112579133</MsgId>
+</xml>
+2016-12-14 22:08:04,946 INFO <xml><ToUserName><![CDATA[gh_3da2decb5f41]]></ToUserName>
+<FromUserName><![CDATA[oVtcxv1V-tj8nkgItNU1URXZd3zQ]]></FromUserName>
+<CreateTime>1481771284</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[1]]></Content>
+<MsgId>6364159205387015800</MsgId>
+</xml>
