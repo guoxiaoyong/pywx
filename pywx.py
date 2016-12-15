@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 import hashlib
 import xmltodict
+import random
 
 app = Flask(__name__)
 _TOKEN = 'guoxiaoyong'
@@ -24,6 +25,18 @@ def show_post(post_id):
     # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
+
+class Quotes(object):
+  def __init__(self):
+    with open('quotes/quotes_cn.txt') as fd:
+      self._quotes = fd.readlines()
+
+  def random(self):
+    num = random.randint(1, len(self._quotes)-1)
+    return self._quotes[num]
+
+Rand_Quotes = Quotes()
+
 @app.route('/xiaoyong', methods=['POST', 'GET'])
 def xiaoyong():
   # weixin's way for the weixin server
@@ -41,16 +54,16 @@ def xiaoyong():
     request.get_data()
     raw_xml = request.data
     post_msg = xmltodict.parse(raw_xml)
-    MyName = post_msg['xml']['ToUserName']
-    CustomName = post_msg['xml']['FromUserName']
+    ServerName = post_msg['xml']['ToUserName']
+    ClientName = post_msg['xml']['FromUserName']
     CreateTime = post_msg['xml']['CreateTime']
 
     reply_msg = {'xml': {}}
-    reply_msg['xml']['ToUserName'] = ToUserName
-    reply_msg['xml']['FromUserName'] = FromUserName
+    reply_msg['xml']['ToUserName'] = ClientName
+    reply_msg['xml']['FromUserName'] = ServerName
     reply_msg['xml']['CreateTime'] = CreateTime
     reply_msg['xml']['MsgType'] = 'text'
-    reply_msg['xml']['Content'] = 'How are you!'
+    reply_msg['xml']['Content'] = Rand_Quotes.random()
     msg = xmltodict.unparse(reply_msg)
     return msg
 
