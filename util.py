@@ -5,6 +5,7 @@ import yaml
 import requests
 import pyqrcode
 import xmltodict
+import hashlib
 from config import Config
 
 

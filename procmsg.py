@@ -1,16 +1,17 @@
 import time
 import xmltodict
+from util import *
 
 # XML Message class
 class XmlMessage(object):
   def __init__(self):
     self._msg = {}
 
-  def add_field(fieldname, value):
+  def add_field(self, fieldname, value):
     # check validity of fieldname and value
     self._msg[fieldname] = value
 
-  def prepare():
+  def prepare(self):
     return xmltodict.unparse({'xml': self._msg})
 
 
@@ -73,7 +74,7 @@ def process_event_message(msg):
   event_handlers['CLICK'] = process_click_event
   event_handlers['VIEW'] = process_view_event
 
-def process_msg(msg):
+def process_reqmsg(msg):
   handlers = {}
   handlers['text'] = process_text_message
   handlers['image'] = process_image_message

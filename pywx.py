@@ -3,6 +3,7 @@ from flask import request
 import logging
 from config import Config
 from util import *
+from procmsg import *
 
 Logger = logging.getLogger('weixin')
 hdlr = logging.FileHandler('weixin.log')
@@ -30,4 +31,4 @@ def xiaoyong():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=80)
