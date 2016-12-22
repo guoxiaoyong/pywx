@@ -17,7 +17,7 @@ class ContentProc():
 
   def proc(self, reqmsg):
     for action in self._actions:
-      result = action(reqmsg):
+      result = action(reqmsg)
       if result:
         return result
 

@@ -179,7 +179,7 @@ def gen_qrcode(content):
 
 
 def openid_to_memberid(openid):
-  return hashlib.sha1(openid).hexdigest()
+  return hashlib.sha1(openid).hexdigest().upper()
 
 
 def WeChat_Logger(logger_name):

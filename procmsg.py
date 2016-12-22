@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 import time
 import xmltodict
-import re
+from content_proc import ContentProc
 from util import *
 
 
@@ -36,9 +36,9 @@ def process_text_message(msg):
   result = content_proc.proc(msg)
   if result:
     rspmsg.add_field('Content', result)
-    return rspmsg.prepare()
   else:
-    return 'Message not processed!'
+    rspmsg.add_field('Content', u'消息等待处理')
+  return rspmsg.prepare()
 
 
 def process_image_message(msg):
