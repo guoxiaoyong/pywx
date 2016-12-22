@@ -1,6 +1,9 @@
+#-*- coding: utf-8 -*-
 import time
 import xmltodict
+import re
 from util import *
+
 
 # XML Message class
 class XmlMessage(object):
@@ -27,17 +30,20 @@ class XmlRspMessage(XmlMessage):
 def process_text_message(msg):
   rspmsg = XmlRspMessage(msg)
   rspmsg.add_field('MsgType', 'text')
-  content = msg['Content']
 
-  if content == '/get_member_id':
-    rspmsg.add_field('Content', get_member_id(msg['FromUserName']))
+  assert 'Content' in msg.keys()
+  content_proc = ContentProc()
+  result = content_proc.proc(msg)
+  if result:
+    rspmsg.add_field('Content', result)
+    return rspmsg.prepare()
   else:
-    rspmsg.add_field('Content', msg['Content'].upper())
+    return 'Message not processed!'
 
-  return rspmsg.prepare()
 
 def process_image_message(msg):
   return 'successful'
+
 
 def process_voice_message(msg):
   return 'successful'

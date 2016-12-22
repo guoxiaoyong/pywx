@@ -1,11 +1,15 @@
 import pdb
+
 import os
 import time
+import hashlib
+import logging
+
 import yaml
 import requests
 import pyqrcode
 import xmltodict
-import hashlib
+
 from config import Config
 
 
@@ -168,12 +172,34 @@ def parse_xml_message(xml):
   msg = xmltodict.parse(xml)
   return msg['xml']
 
+
 def gen_qrcode(content):
   qrcode = pyqrcode.create(content)
   qrcode.png('/tmp/qr.png', scale=3)
 
-def get_member_id(openid):
+
+def openid_to_memberid(openid):
   return hashlib.sha1(openid).hexdigest()
+
+
+def WeChat_Logger(logger_name):
+  # Set log format.
+  fmt = '%(asctime)s %(levelname)s %(message)s'
+  formatter = logging.Formatter(fmt)
+
+  # Set log file.
+  log_file = "{}.log".format(logger_name)
+  handler = logging.FileHandler(log_file)
+  handler.setLevel(logging.INFO)
+  handler.setFormatter(formatter)
+
+  # Get Logger.
+  Logger = logging.getLogger(logger_name)
+  Logger.addHandler(handler)
+  Logger.setLevel(logging.INFO)
+  return Logger
+
+LOG = WeChat_Logger('weixin')
 
 if __name__ == "__main__":
   #gen_qrcode('hello world!')
