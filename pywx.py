@@ -3,8 +3,8 @@ import flask
 
 from util import LOG
 from procmsg import process_reqmsg
-from procmsg import verify_request 
-from procmsg import parse_xml_message 
+from procmsg import verify_request
+from procmsg import parse_xml_message
 
 app = flask.Flask(__name__)
 
