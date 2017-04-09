@@ -14,5 +14,6 @@ def check_content(reqmsg):
 
 def lookup(reqmsg):
   term = check_content(reqmsg)
-  if result:
+  if term:
+    print term
     return lookup_urbandictionary(term);

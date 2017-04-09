@@ -1,4 +1,7 @@
 import sys
+import os
+import random
+import json
 import requests
 from pyquery import PyQuery
 
@@ -28,15 +31,20 @@ def parse_define_page(page_content=None, filename=None):
 def format_parse_result(parsed):
   template = "word: {}\nmeaning: {}\nexample: {}\n"
   result = []
-  for entry in parsed:
-    result.append(template.format(
-        entry['word'], entry['meaning'], entry['example']))
-  return '\n\n'.join(result)
+  n = random.randint(0, len(parsed)-1)
+  entry = parsed[n]
+  return template.format(entry['word'], entry['meaning'], entry['example'])
 
 
 def lookup_urbandictionary(word):
-  html = retrieve_urbandictionary_define_page(word)
-  parsed = parse_define_page(html)
-  return format_parse_result(parsed)
+  filepath = os.path.join('dict', word)
+  if os.path.exists(filepath):
+     parsed = json.load(open(filepath))
+  else:
+    html = retrieve_urbandictionary_define_page(word)
+    parsed = parse_define_page(html)
+    with open(os.path.join('dict', word), 'wb') as outfile:
+      json.dump(parsed, outfile)
+  res = format_parse_result(parsed)
+  return res
 
-print lookup_urbandictionary(sys.argv[1])
