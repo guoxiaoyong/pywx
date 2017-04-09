@@ -19,6 +19,12 @@ def parse_define_page(page_content=None, filename=None):
   else:
     doc = PyQuery(filename=filename)
 
+  shrug_face = '¯\_(ツ)_/¯'
+  if doc('div.def-header > a.word').size() == 0:
+    return [{'word': shrug_face,
+             'meaning': 'No definition.',
+             'example': 'none'}]
+
   words = [tag.text for tag in doc('div.def-header > a.word')]
   meanings = [tag.text for tag in doc('div.meaning')]
   examples = [tag.text for tag in doc('div.example')]
@@ -48,3 +54,8 @@ def lookup_urbandictionary(word):
   res = format_parse_result(parsed)
   return res
 
+
+if __name__ == '__main__':
+  parsed = parse_define_page(filename='nanjing.html')
+  res = format_parse_result(parsed)
+  print res
