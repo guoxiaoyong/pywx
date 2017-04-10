@@ -19,11 +19,11 @@ def parse_define_page(page_content=None, filename=None):
   else:
     doc = PyQuery(filename=filename)
 
-  shrug_face = '¯\_(ツ)_/¯'
+  # word is not defined
   if doc('div.def-header > a.word').size() == 0:
-    return [{'word': shrug_face,
+    return [{'word': 'Word not found',
              'meaning': 'No definition.',
-             'example': 'none'}]
+             'example': 'None'}]
 
   words = [tag.text for tag in doc('div.def-header > a.word')]
   meanings = [tag.text for tag in doc('div.meaning')]
@@ -37,6 +37,8 @@ def parse_define_page(page_content=None, filename=None):
 def format_parse_result(parsed):
   template = "word: {}\nmeaning: {}\nexample: {}\n"
   result = []
+  print parsed
+  print len(parsed)
   n = random.randint(0, len(parsed)-1)
   entry = parsed[n]
   return template.format(entry['word'], entry['meaning'], entry['example'])
