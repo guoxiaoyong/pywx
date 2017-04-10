@@ -21,27 +21,32 @@ def parse_define_page(page_content=None, filename=None):
 
   # word is not defined
   if doc('div.def-header > a.word').size() == 0:
-    return [{'word': 'Word not found',
-             'meaning': 'No definition.',
-             'example': 'None'}]
+    print "word not found."
+    return None 
 
   words = [tag.text for tag in doc('div.def-header > a.word')]
   meanings = [tag.text for tag in doc('div.meaning')]
   examples = [tag.text for tag in doc('div.example')]
-  return [{'word': word.encode('utf8'),
-           'meaning': meaning.encode('utf8'),
-           'example': example.encode('utf8')}
-          for word, meaning, example in zip(words, meanings, examples)]
-
+  res = [{'word': word.encode('utf8'),
+          'meaning': meaning.encode('utf8'),
+          'example': example.encode('utf8')}
+         for word, meaning, example in zip(words, meanings, examples)] 
+  return res
+  
 
 def format_parse_result(parsed):
+  if not parsed:
+    return None
+
   template = "word: {}\nmeaning: {}\nexample: {}\n"
   result = []
-  print parsed
-  print len(parsed)
   n = random.randint(0, len(parsed)-1)
   entry = parsed[n]
-  return template.format(entry['word'], entry['meaning'], entry['example'])
+  print type(entry['word'])
+  try:
+    return template.format(entry['word'], entry['meaning'], entry['example'])
+  except UnicodeEncodeError:
+    return template.format(entry['word'].encode('utf8'), entry['meaning'].encode('utf8'), entry['example'].encode('utf8'))
 
 
 def lookup_urbandictionary(word):
@@ -51,14 +56,12 @@ def lookup_urbandictionary(word):
   else:
     html = retrieve_urbandictionary_define_page(word)
     parsed = parse_define_page(html)
-    with open(os.path.join('dict', word), 'wb') as outfile:
-      json.dump(parsed, outfile)
+    if parsed:
+      with open(os.path.join('dict', word), 'wb') as outfile:
+        json.dump(parsed, outfile)
   res = format_parse_result(parsed)
-  return res
+  return res or [{'word': 'NotFound', 'meaning': 'NoDefinition', 'example': 'None'}]
 
 
 if __name__ == '__main__':
-  parsed = parse_define_page(filename='fudan.html')
-  print parsed
-  res = format_parse_result(parsed)
-  print res
+  print lookup_urbandictionary(sys.argv[1])
