@@ -36,6 +36,7 @@ def parse_define_page(page_content=None, filename=None):
 
 def format_parse_result(parsed):
   if not parsed:
+    print "parsed is None"
     return None
 
   template = "word: {}\nmeaning: {}\nexample: {}\n"
@@ -59,8 +60,8 @@ def lookup_urbandictionary(word):
     if parsed:
       with open(os.path.join('dict', word), 'wb') as outfile:
         json.dump(parsed, outfile)
-  res = format_parse_result(parsed)
-  return res or [{'word': 'NotFound', 'meaning': 'NoDefinition', 'example': 'None'}]
+  parsed = parsed or [{'word': 'NotFound', 'meaning': 'NoDefinition', 'example': 'None'}]
+  return format_parse_result(parsed)
 
 
 if __name__ == '__main__':

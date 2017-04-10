@@ -1,4 +1,5 @@
 import sys
+import os
 import flask
 
 from util import LOG
@@ -22,6 +23,23 @@ def xiaoyong():
     reqmsg = parse_xml_message(raw_xml)
     rspmsg = process_reqmsg(reqmsg)
     return rspmsg
+
+
+def load_resource(name):
+  path = os.path.join(os.path.dirname(__file__), 'blog', name)
+  if os.path.exists(path):
+    with open(path) as infile:
+      content = infile.read();
+    return content
+  
+
+@app.route('/')
+def index():
+  return load_resource('index.html')
+
+@app.route('/<blog_page>')
+def blog(blog_page):
+  return load_resource(blog_page)
 
 
 if __name__ == '__main__':
