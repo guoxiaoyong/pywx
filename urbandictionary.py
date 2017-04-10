@@ -58,6 +58,7 @@ def lookup_urbandictionary(word):
 
 
 if __name__ == '__main__':
-  parsed = parse_define_page(filename='nanjing.html')
+  parsed = parse_define_page(filename='fudan.html')
+  print parsed
   res = format_parse_result(parsed)
   print res
